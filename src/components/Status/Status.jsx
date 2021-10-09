@@ -1,9 +1,11 @@
 import React from 'react';
 
-const Status = () => {
+const Status = ({numOfPopulation, numOfGenerations}) => {
     return (
         <div>
-            STATUS
+            STATUS<br/>
+            Population: {numOfPopulation}<br/>
+            Generation: {numOfGenerations}
         </div>
     );
 };

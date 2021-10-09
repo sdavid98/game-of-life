@@ -7,8 +7,8 @@ const ControlPanel = ({actions}) => {
             <button onClick={actions.start}>START</button>
             <button onClick={actions.pause}>PAUSE</button>
             <button onClick={actions.forward}>FORWARD</button>
-            <button>CLEAR</button>
-            <button>RESET</button>
+            <button onClick={actions.clear}>CLEAR</button>
+            <button onClick={actions.reset}>RESET TO STEP 0.</button>
         </div>
     );
 };

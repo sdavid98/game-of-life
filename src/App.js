@@ -4,46 +4,83 @@ import {INITIAL_BOARD_DIMENSIONS, INITIAL_TIME_BETWEEN_GENERATIONS_MS} from "./u
 import Status from "./components/Status/Status";
 import ControlPanel from "./components/ControlPanel/ControlPanel";
 import Board from "./components/Board/Board";
-import {getEmptyBoardCells, toggleStatus} from "./utils/functions/board";
+import {getEmptyBoardCells, getPopulationCount, toggleStatus} from "./utils/functions/board";
 import {stepForward} from "./utils/functions/game";
 
 const App = () => {
     const [numOfGenerations, updateNumOfGenerations] = useState(0);
+    const [numOfPopulation, updateNumOfPopulation] = useState(0);
     const [cells, updateCells] = useState(getEmptyBoardCells(INITIAL_BOARD_DIMENSIONS));
+    const [zeroStepCells, setZeroStepCells] = useState([]);
     const [intervalHandler, setIntervalHandler] = useState(null);
 
     const onCellClick = (rowIndex, colIndex) => {
-        console.log(rowIndex, colIndex);
-        if (numOfGenerations > 0) {
-            return;
+        if (numOfGenerations === 0) {
+            updateCells(cells => {
+                const newCells = toggleStatus(cells, rowIndex, colIndex);
+                updateNumOfPopulation(getPopulationCount(newCells));
+
+                return newCells;
+            });
         }
-        updateCells(toggleStatus(cells, rowIndex, colIndex));
     }
 
-    const onForwardClick = () => {
-        updateCells(stepForward(cells));
+    const initState = () => {
+        if (zeroStepCells.length === 0) {
+            setZeroStepCells(cells);
+            updateNumOfPopulation(getPopulationCount(cells));
+        }
+    }
+
+    const setNextStep = () => {
+        updateCells(oldCells => {
+            const newCells = stepForward(oldCells)
+            updateNumOfPopulation(getPopulationCount(newCells));
+
+            return newCells;
+        });
         updateNumOfGenerations(prevNum => ++prevNum);
     }
 
+    const onForwardClick = () => {
+        initState();
+        setNextStep();
+    }
+
     const onStartClick = () => {
-        const interval = setInterval(() => {
-            console.log('STEP');
-            updateCells(oldCells => stepForward(oldCells));
-            updateNumOfGenerations(prevNum => ++prevNum);
-        }, INITIAL_TIME_BETWEEN_GENERATIONS_MS);
+        initState();
+        const interval = setInterval(setNextStep, INITIAL_TIME_BETWEEN_GENERATIONS_MS);
 
         setIntervalHandler(interval);
+    }
+
+    const onStateToStepZeroClick = () => {
+        if (zeroStepCells.length > 0) {
+            updateCells(zeroStepCells);
+            updateNumOfGenerations(0);
+            updateNumOfPopulation(0);
+        }
+    }
+
+    const onClearClick = () => {
+        updateCells(getEmptyBoardCells(INITIAL_BOARD_DIMENSIONS));
+        setZeroStepCells([]);
+        updateNumOfGenerations(0);
+        updateNumOfPopulation(0);
+        intervalHandler && clearInterval(intervalHandler)
     }
 
     const controlButtonActions = {
         forward: onForwardClick,
         start: onStartClick,
-        pause: () => clearInterval(intervalHandler)
+        pause: () => intervalHandler && clearInterval(intervalHandler),
+        reset: onStateToStepZeroClick,
+        clear: onClearClick
     }
 
     return (
         <div className="App">
-            <Status/>
+            <Status numOfPopulation={numOfPopulation} numOfGenerations={numOfGenerations}/>
             <div className="main">
                 <Board onCellClick={onCellClick} cells={cells}/>
                 <ControlPanel actions={controlButtonActions} />
