@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.scss';
 import {INITIAL_BOARD_DIMENSIONS, INITIAL_TIME_BETWEEN_GENERATIONS_MS} from "./utils/constants";
 import Status from "./components/Status/Status";
@@ -13,6 +13,12 @@ const App = () => {
     const [cells, updateCells] = useState(getEmptyBoardCells(INITIAL_BOARD_DIMENSIONS));
     const [zeroStepCells, setZeroStepCells] = useState([]);
     const [intervalHandler, setIntervalHandler] = useState(null);
+
+    useEffect(() => {
+        if (numOfPopulation === 0 && numOfGenerations > 0) {
+            clearInterval(intervalHandler);
+        }
+    }, [intervalHandler, numOfGenerations, numOfPopulation])
 
     const onCellClick = (rowIndex, colIndex) => {
         if (numOfGenerations === 0) {
@@ -82,7 +88,7 @@ const App = () => {
         <div className="App">
             <Status numOfPopulation={numOfPopulation} numOfGenerations={numOfGenerations}/>
             <div className="main">
-                <Board onCellClick={onCellClick} cells={cells}/>
+                <Board showEndOverlay={numOfGenerations > 0 && numOfPopulation === 0} onCellClick={onCellClick} cells={cells}/>
                 <ControlPanel actions={controlButtonActions} />
             </div>
         </div>
