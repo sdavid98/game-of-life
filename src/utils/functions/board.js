@@ -16,3 +16,25 @@ export const getPopulationCount = cells => {
 
     return count;
 }
+
+export const getRandomGeneratedCells = (density, rowCount, colCount) => {
+    const numOfNeededAliveCells = Math.floor(rowCount * colCount * density / 100);
+    let selectedCells = [];
+
+    while(selectedCells.length < numOfNeededAliveCells) {
+        const rowIndex = Math.floor(Math.random() * rowCount);
+        const colIndex = Math.floor(Math.random() * colCount);
+
+        if (!selectedCells.includes(`${rowIndex}-${colIndex}`)) {
+            selectedCells.push(`${rowIndex}-${colIndex}`);
+        }
+    }
+
+    let cells = getEmptyBoardCells({rows: rowCount, cols: colCount});
+
+    selectedCells.forEach((cell, i) => {
+        cells = toggleStatus(cells, cell.split('-')[0], cell.split('-')[1])
+    });
+
+    return cells;
+}
