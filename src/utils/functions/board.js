@@ -38,3 +38,21 @@ export const getRandomGeneratedCells = (density, rowCount, colCount) => {
 
     return cells;
 }
+
+export const resizeBoard = (cells, newRowCount, newColCount) => {
+    if (newRowCount > cells.length) {
+        const newCells = getEmptyBoardCells({rows: newRowCount - cells.length, cols: cells[0].length});
+        cells.push(...newCells);
+    }
+    else if (newRowCount < cells.length) {
+        cells = cells.slice(0, newRowCount);
+    }
+    else if (newColCount > cells[0].length) {
+        cells = cells.map(row => [...row, ...Array(newColCount - row.length).fill(false)]);
+    }
+    else if (newColCount < cells[0].length) {
+        cells = cells.map(row => row.slice(0, newColCount));
+    }
+
+    return cells;
+}

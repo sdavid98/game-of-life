@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Settings = ({inputs, updateInput, isEnabled}) => {
+const Settings = ({inputs, updateInput, isEnabled, cells, updaters}) => {
     const onInputChange = (e, input) => {
         if (typeof input.validate === "undefined" || input.validate(e)) {
             updateInput(oldInputs => {
@@ -12,6 +12,7 @@ const Settings = ({inputs, updateInput, isEnabled}) => {
                     newInputs[input.id].value = e.target.value;
                 }
 
+                input.onUpdate && input.onUpdate(inputs, cells, updaters);
                 return newInputs;
             });
         }

@@ -1,3 +1,3 @@
 export const INITIAL_BOARD_DIMENSIONS = {rows: 30, cols: 30};
 export const INITIAL_TIME_BETWEEN_GENERATIONS_MS = 1000;
-export const DEFAULT_DENSITY = 15;
+export const DEFAULT_DENSITY = 20;
