@@ -1,0 +1,16 @@
+.board {
+    display: grid;
+}
+
+.overlay {
+    display: grid;
+    background-color: #eb4343;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+    color: #ffffff;
+
+    strong {
+        font-size: 3rem;
+    }
+}

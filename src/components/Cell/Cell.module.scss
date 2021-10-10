@@ -1,0 +1,16 @@
+.cell {
+    background-color: whitesmoke;
+    height: 1rem;
+    width: 1rem;
+    outline: none;
+    border: 1px solid #dddddd;
+    display: block;
+    
+    &:hover {
+        background-color: #dddddd;
+    }
+    
+    &--alive {
+        background-color: #000000;
+    }
+}

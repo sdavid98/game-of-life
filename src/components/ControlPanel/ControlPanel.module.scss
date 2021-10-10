@@ -1,0 +1,7 @@
+.control-panel {
+    display: grid;
+    align-items: center;
+    align-content: baseline;
+    grid-gap: 2rem;
+    grid-template-columns: 1fr 1fr;
+}
