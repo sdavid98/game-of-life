@@ -30,8 +30,7 @@ export const getRandomGeneratedCells = (density, rowCount, colCount) => {
         }
     }
 
-    let cells = getEmptyBoardCells({rows: rowCount, cols: colCount});
-
+    let cells = getEmptyBoardCells({rows: +rowCount, cols: +colCount});
     selectedCells.forEach((cell, i) => {
         cells = toggleStatus(cells, cell.split('-')[0], cell.split('-')[1])
     });

@@ -2,12 +2,13 @@ import React from 'react';
 import classes from './Board.module.scss';
 import Cell from "../Cell/Cell";
 
-const Board = ({cells, onCellClick, showEndOverlay}) => {
+const Board = ({cells, onCellClick, showEndOverlay, numOfPopulation, maxPopulationCount}) => {
 
     if (showEndOverlay) {
         return (
             <div className={classes['overlay']} style={{width: cells.length + 'rem', height: cells[0].length + 'rem'}}>
-                Population dropped to 0.
+                {numOfPopulation === 0 ? 'Population dropped to 0.' : 'Population reached a constant state.'}<br/>
+                Max population count: {maxPopulationCount}
                 <strong>GAME OVER</strong>
             </div>
         )
