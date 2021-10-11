@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {INITIAL_BOARD_DIMENSIONS} from "../../utils/constants";
 import {getRandomGeneratedCells, resizeBoard} from "../../utils/functions/board";
 import classes from './Settings.module.scss';
+import {preDefinedStates} from "../../store/preDefinedStates";
 
 const Settings = ({inputs, updateInput, isEnabled, updateCells}) => {
     const [localInputs, updateLocalInputs] = useState({...inputs});
@@ -12,7 +13,8 @@ const Settings = ({inputs, updateInput, isEnabled, updateCells}) => {
                 const newInputs = {...oldInputs};
                 if (input.type === 'checkbox') {
                     newInputs[input.id].value = e.target.checked;
-                } else {
+                }
+                else {
                     newInputs[input.id].value = e.target.value;
                 }
 
@@ -25,6 +27,10 @@ const Settings = ({inputs, updateInput, isEnabled, updateCells}) => {
         updateInput({...localInputs});
         updateCells(oldCells => {
             let newCells = oldCells.map(inner => inner.slice());
+
+            if (localInputs.preDefinedCells.value) {
+                return preDefinedStates.find(state => state.name === localInputs.preDefinedCells.value).cells;
+            }
 
             if (localInputs.height.value !== INITIAL_BOARD_DIMENSIONS.rows || localInputs.width.value !== INITIAL_BOARD_DIMENSIONS.cols) {
                 newCells = (resizeBoard(oldCells, localInputs.height.value, localInputs.width.value));
@@ -45,13 +51,25 @@ const Settings = ({inputs, updateInput, isEnabled, updateCells}) => {
                 {Object.keys(localInputs).map((input) => (
                     <div key={input} className={classes['settings-row']}>
                         <label htmlFor={input}>{localInputs[input].label}</label>
-                        <input onChange={e => onInputChange(e, localInputs[input])}
-                               type={localInputs[input].type}
-                               value={localInputs[input].value}
-                               name={input}
-                               id={input}
-                               disabled={!isEnabled}
-                        />
+                        {localInputs[input].type === 'select' ? (
+                            <select onChange={e => onInputChange(e, localInputs[input])}
+                                   value={localInputs[input].value}
+                                   name={input}
+                                   id={input}
+                                   disabled={!isEnabled}
+                            >
+                                <option value="">None</option>
+                                {localInputs[input].options.map(option => <option value={option.name} key={option.name}>{option.name}</option>)}
+                            </select>
+                        ) : (
+                            <input onChange={e => onInputChange(e, localInputs[input])}
+                                   type={localInputs[input].type}
+                                   value={localInputs[input].value}
+                                   name={input}
+                                   id={input}
+                                   disabled={!isEnabled}
+                            />
+                        )}
                     </div>
                 ))}
             </div>
