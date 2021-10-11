@@ -1,4 +1,5 @@
 import {DEFAULT_DENSITY, INITIAL_BOARD_DIMENSIONS, INITIAL_TIME_BETWEEN_GENERATIONS_MS} from "../utils/constants";
+import {preDefinedStates} from "./preDefinedStates";
 
 export const inputs = {
     width: {
@@ -35,4 +36,11 @@ export const inputs = {
         value: INITIAL_TIME_BETWEEN_GENERATIONS_MS,
         validate: (e) => e.target.value > 0
     },
+    preDefinedCells: {
+        id: 'preDefinedCells',
+        type: 'select',
+        label: '... or select a pre-defined shape',
+        value: "",
+        options: preDefinedStates
+    }
 };
