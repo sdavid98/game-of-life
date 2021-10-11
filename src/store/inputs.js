@@ -1,13 +1,6 @@
 import {DEFAULT_DENSITY, INITIAL_BOARD_DIMENSIONS, INITIAL_TIME_BETWEEN_GENERATIONS_MS} from "../utils/constants";
 
 export const inputs = {
-    interval: {
-        id: 'interval',
-        type: 'number',
-        label: 'Time between generation (ms)',
-        value: INITIAL_TIME_BETWEEN_GENERATIONS_MS,
-        validate: (e) => e.target.value > 0
-    },
     width: {
         id: 'width',
         type: 'number',
@@ -34,5 +27,12 @@ export const inputs = {
         label: 'Density for random population',
         value: DEFAULT_DENSITY,
         validate: (e) => e.target.value > 0 && e.target.value < 100
+    },
+    interval: {
+        id: 'interval',
+        type: 'number',
+        label: 'Time between generation (ms)',
+        value: INITIAL_TIME_BETWEEN_GENERATIONS_MS,
+        validate: (e) => e.target.value > 0
     },
 };

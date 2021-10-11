@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {INITIAL_BOARD_DIMENSIONS} from "../../utils/constants";
 import {getRandomGeneratedCells, resizeBoard} from "../../utils/functions/board";
+import classes from './Settings.module.scss';
 
 const Settings = ({inputs, updateInput, isEnabled, updateCells}) => {
     const [localInputs, updateLocalInputs] = useState({...inputs});
@@ -39,18 +40,22 @@ const Settings = ({inputs, updateInput, isEnabled, updateCells}) => {
 
     return (
         <div>
-            SETTINGS<br/>
-            {Object.keys(localInputs).map((input) => (
-                <input key={input}
-                       onChange={e => onInputChange(e, localInputs[input])}
-                       type={localInputs[input].type}
-                       value={localInputs[input].value}
-                       name={input}
-                       id={input}
-                       disabled={!isEnabled}
-                />
-            ))}
-            <button onClick={onSetSettings}>SET</button>
+            <h2>SETTINGS</h2>
+            <div>
+                {Object.keys(localInputs).map((input) => (
+                    <div key={input} className={classes['settings-row']}>
+                        <label htmlFor={input}>{localInputs[input].label}</label>
+                        <input onChange={e => onInputChange(e, localInputs[input])}
+                               type={localInputs[input].type}
+                               value={localInputs[input].value}
+                               name={input}
+                               id={input}
+                               disabled={!isEnabled}
+                        />
+                    </div>
+                ))}
+            </div>
+            <button disabled={!isEnabled} onClick={onSetSettings}>SET</button>
         </div>
     );
 };

@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Status = ({numOfPopulation, numOfGenerations}) => {
+const Status = ({numOfPopulation, numOfGenerations, percentOfFullBoard}) => {
     return (
         <div>
-            STATUS<br/>
-            Population: {numOfPopulation}<br/>
+            <h2>STATUS</h2>
+            Population: {numOfPopulation} ({percentOfFullBoard}%)<br/>
             Generation: {numOfGenerations}
         </div>
     );
