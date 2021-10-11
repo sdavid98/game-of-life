@@ -111,17 +111,25 @@ const App = () => {
 
     return (
         <div className="App">
-            <div>
-                <Status numOfPopulation={numOfPopulation} numOfGenerations={numOfGenerations}/>
-                <Settings cells={cells} updateCells={updateCells} isEnabled={numOfGenerations === 0}
-                          inputs={setupInputs} updateInput={updateSetupInputs}/>
-            </div>
-            <div className="main">
-                <Board numOfPopulation={numOfPopulation} maxPopulationCount={maxPopulationCount}
-                       showEndOverlay={(numOfGenerations > 0 && numOfPopulation === 0) || endOfGame}
-                       onCellClick={onCellClick}
-                       cells={cells}/>
-                <ControlPanel actions={controlButtonActions}/>
+            <div className="ui">
+                <div className="row">
+                    <Settings cells={cells}
+                              updateCells={updateCells}
+                              isEnabled={numOfGenerations === 0}
+                              inputs={setupInputs}
+                              updateInput={updateSetupInputs}/>
+                    <Status numOfPopulation={numOfPopulation}
+                            numOfGenerations={numOfGenerations}
+                            percentOfFullBoard={Math.round(100 * numOfPopulation / (setupInputs.width.value * setupInputs.height.value))}/>
+                </div>
+                <div className="">
+                    <Board numOfPopulation={numOfPopulation}
+                           maxPopulationCount={maxPopulationCount}
+                           showEndOverlay={(numOfGenerations > 0 && numOfPopulation === 0) || endOfGame}
+                           onCellClick={onCellClick}
+                           cells={cells}/>
+                    <ControlPanel actions={controlButtonActions}/>
+                </div>
             </div>
         </div>
     );

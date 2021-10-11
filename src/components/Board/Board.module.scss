@@ -1,5 +1,6 @@
 .board {
     display: grid;
+    justify-content: center;
 }
 
 .overlay {
@@ -9,6 +10,7 @@
     align-content: center;
     text-align: center;
     color: #ffffff;
+    margin: auto;
 
     strong {
         font-size: 3rem;
